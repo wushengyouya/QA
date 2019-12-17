@@ -15,16 +15,38 @@ namespace QA.Models
     public partial class Doctor
     {
         public string Id { get; set; }
+        
+        //账号
         public string d_account { get; set; }
+        
+        //医生姓名
         public string d_name { get; set; }
+
+        //年龄
         public Nullable<int> d_age { get; set; }
+
+        //联系方式
         public string d_tel { get; set; }
+
+        //职称
         public string title { get; set; }
+
+        //医生简介
         public string brief { get; set; }
+
+        //性别
         public string d_sex { get; set; }
+
+        //密码
         public string password { get; set; }
+
+        //录入时间
         public Nullable<System.DateTime> entry_date { get; set; }
+
+        //管理员编号
         public string admin_id { get; set; }
+
+        //评分
         public Nullable<decimal> points { get; set; }
     }
 }

@@ -15,13 +15,27 @@ namespace QA.Models
     public partial class Patient
     {
         public string ID { get; set; }
+        //患者账号
         public string p_account { get; set; }
+
+        //患者姓名
         public string p_Name { get; set; }
+        
+        //身份证
         public string Idcard { get; set; }
+        
+        //性别
         public string p_sex { get; set; }
+
         public string Password { get; set; }
+        
+        //注册日期
         public Nullable<System.DateTime> Enroll_date { get; set; }
+        
+        //患者电话
         public string p_tel { get; set; }
-        public Nullable<System.DateTime> Birthday { get; set; }
+        
+        //出生日期
+        public Nullable<System.DateTime> Birthday { get; set; }  
     }
 }
