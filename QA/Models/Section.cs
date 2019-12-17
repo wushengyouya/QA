@@ -15,10 +15,20 @@ namespace QA.Models
     public partial class Section
     {
         public string Id { get; set; }
+
+        //科室编号
         public Nullable<int> section_no { get; set; }
+
+        //录入时间
         public Nullable<System.DateTime> entry_date { get; set; }
+
+        //医生编号
         public string d_id { get; set; }
+
+        //管理员编号
         public string a_id { get; set; }
+
+        //科室名称
         public string s_name { get; set; }
     }
 }

@@ -15,9 +15,17 @@ namespace QA.Models
     public partial class Administrator
     {
         public string Id { get; set; }
+
+        //工号
         public Nullable<long> j_no { get; set; }
+
+        //密码
         public string Password { get; set; }
+
+        //管理员姓名
         public string name { get; set; }
+
+        //联系方式
         public string tel { get; set; }
     }
 }
