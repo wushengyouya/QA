@@ -1,21 +1,131 @@
-﻿@{
-    Layout = null;
+﻿
+@{
+    ViewBag.Title = "Index";
 }
-@model IList<QA.Models.Section>
-<!DOCTYPE html>
+@using QA.Models;
+@model List<Patient>
+<style>
+    .dropdown {
+        font-size: 20px;
+        font-weight: bold;
+    }
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Index</title>
-</head>
-<body>
-    <div class="col-lg-12" style="border:1px red solid;text-align:center">
-        <label style="">欢迎进入在线医疗服务</label>
+    #begin:link {
+        text-decoration: none;
+    }
+
+    #begin:visited {
+        text-decoration: none;
+    }
+
+    #begin:hover {
+        text-decoration: none;
+    }
+
+    #begin:active {
+        text-decoration: none;
+    }
+</style>
+<!--导航栏-->
+<div class="col-lg-12" id="bak" style="height: 770px;
+        background:rgba(0,0,0,0.4) url('../../Content/img/computer-desk-laptop-stethoscope-48604.jpg') no-repeat ;
+        background-size:cover;
+        text-align: center">
+    <nav class="navbar ">
+        <div class="pull-right">
+            <ul class="nav navbar-nav">
+                <li class="dropdown">
+                    <span style="height:50px;line-height:50px">
+                        你好，问你打我的欧安我读AOI
+                    </span>
+                </li>
+                <li class="dropdown">
+                    <a href="#" data-toggle="dropdown">
+                        个人中心
+                    </a>
+                </li>
+                <li class="dropdown">
+                    <a href="#" data-toggle="dropdown">
+                        咨询中心
+                    </a>
+                </li>
+                <li class="dropdown">
+                    <a href="#" data-toggle="dropdown">
+                        注销
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="col-lg-12" style="line-height:150px;text-align:center;">
+        <font style="font:5vw bold;color:#428dcb; text-shadow: #ffffff 4px 0 0, #ffffff 0 4px 0, #ffffff -4px 0 0, #ffffff 0 -4px 0">欢迎进入在线医疗咨询</font>
+        <p></p>
+        <font style="font:3vw bold;color:#428dcb; text-shadow: #ffffff 2px 0 0, #ffffff 0 2px 0, #ffffff -2px 0 0, #ffffff 0 -2px 0">第7小组</font>
+        <br />
+        <a href="#two" id="begin" style="background:white;padding:10px;font:2vw bold;border-radius:22px;line-height:100px">开始咨询</a>
+    </div>
+</div>
+<div id="two" class="col-lg-12" style="height: 750px">
+    <div class="col-lg-12" style="text-align:center;font:3vw black bold">选择科室-->选择医生-->填写问题</div>
+
+    <!--表单-->
+    <div class="col-lg-12" style="text-align:center;">
+        <form role="form" class="col-lg-12">
+            <div class="col-lg-3 text-center" style="margin-top:20px;">
+                <label for="name">科室目录</label>
+                <select class="form-control col-lg-12" id="section">
+                    <option value="">默认选择</option>
+                    <option>儿科</option>
+                    <option>妇科</option>
+                    <option>男科</option>
+                    <option>外科</option>
+                    <option>内科</option>
+                </select>
+            </div>
+
+            <div class="col-lg-3 text-center" style="margin-top:20px;">
+                <label for="name">医生目录</label>
+                <select class="form-control col-lg-12" id="doctor">
+                    <option value="">默认选择</option>
+                    <option>王师傅</option>
+                    <option>男师傅</option>
+                    <option>张医生</option>
+                    <option>麻拐</option>
+                </select>
+            </div>
+
+            <div class="form-group col-lg-6">
+                <label for="name">文本框</label>
+                <textarea class="form-control" rows="6" id="textarea"></textarea>
+            </div>
+            <button id="subtn" type="button" class="btn btn-default btn-lg ">提交咨询</button>
+        </form>
+
+
 
     </div>
-</body>
-</html>
-<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
-<script src="~/Scripts/bootstrap.min.js"></script>
-<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+
+</div>
+<script>
+    $("#subtn").click(function () {
+        if ($("#textarea").val() == "" || $("#doctor").val() == "" || $("#section").val() == "") {
+            alert("请完善填写信息");
+        } else {
+            alert("可提交");
+        }
+    });
+
+    $("#section").change(function (e) {
+        $.ajax({
+            type: 'POST',
+            dataType: 'text',
+            url: "/Home/AddCount",
+            data: { "lovecount": $(this).find("div[class='lovedCount']").text() }
+        });
+    });
+</script>
+
+
+
+
