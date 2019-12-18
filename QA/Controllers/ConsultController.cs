@@ -21,7 +21,14 @@ namespace QA.Controllers
             return View();
         }
 
-        public ActionResult IIII() {
+        //咨询中心
+        public ActionResult ConsultCenter() {
+            return View();
+        }
+
+        //个人中心
+        public ActionResult PersonCenter()
+        {
             return View();
         }
 

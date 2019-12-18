@@ -162,8 +162,9 @@
     <None Include="packages.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Consult\IIII.cshtml" />
     <Content Include="Views\Consult\Index.cshtml" />
+    <Content Include="Views\Consult\ConsultCenter.cshtml" />
+    <Content Include="Views\Consult\PersonCenter.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

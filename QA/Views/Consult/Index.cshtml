@@ -40,12 +40,12 @@
                     </span>
                 </li>
                 <li class="dropdown">
-                    <a href="#" data-toggle="dropdown">
+                    <a id="enterPBtn" href="#" data-toggle="dropdown">
                         个人中心
                     </a>
                 </li>
                 <li class="dropdown">
-                    <a href="#" data-toggle="dropdown">
+                    <a id="enterCBtn" href="" data-toggle="dropdown">
                         咨询中心
                     </a>
                 </li>
@@ -109,7 +109,7 @@
 </div>
 <script>
     $("#subtn").click(function () {
-        if ($("#textarea").val() == "" || $("#doctor").val() == "" || $("#section").val() == "") {
+        if ($("#textarea").val().trim() == "" || $("#doctor").val().trim() == "" || $("#section").val().trim() == "") {
             alert("请完善填写信息");
         } else {
             alert("可提交");
@@ -124,6 +124,14 @@
             data: { "lovecount": $(this).find("div[class='lovedCount']").text() }
         });
     });
+
+    $("#enterCBtn").click(function () {
+        window.location.href = "/Consult/ConsultCenter";
+    });
+
+    $("#enterPBtn").click(function () {
+        window.location.href = "/Consult/PersonCenter";
+    })
 </script>
 
 

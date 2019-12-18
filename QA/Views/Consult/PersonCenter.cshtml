@@ -1,0 +1,128 @@
+﻿
+@{
+    ViewBag.Title = "PersonCenter";
+}
+
+<style>
+    .mask {
+        position: absolute;
+        top: 0px;
+        filter: alpha(opacity=60);
+        background-color: #777;
+        z-index: 1002;
+        left: 0px;
+        opacity: 0.5;
+        -moz-opacity: 0.5;
+    }
+    
+
+</style>
+
+<h2>个人中心</h2>
+<div id="mask" class="mask"></div>
+    <div class="form-group col-lg-6">
+        <label for="inputPassword" class="col-sm-2 control-label">
+            账号
+        </label>
+        <div class="col-sm-10">
+            <input class="form-control" id="disabledInput" type="text" placeholder="abc1234" disabled>
+        </div>
+
+        <!---->
+        <label for="inputPassword" class="col-sm-2 control-label">
+            姓名
+        </label>
+        <div class="col-sm-10">
+            <input class="form-control" id="disabledInput" type="text" placeholder="彭其" disabled>
+        </div>
+
+        <!---->
+        <label for="inputPassword" class="col-sm-2 control-label">
+            身份证
+        </label>
+        <div class="col-sm-10">
+            <input class="form-control" id="disabledInput" type="text" placeholder="该输入框禁止输入..." disabled>
+        </div>
+
+        <!---->
+        <label for="inputPassword" class="col-sm-2 control-label">
+            性别
+        </label>
+        <div class="col-sm-10">
+            <select id="disabledSelect" class="form-control">
+                <option>男</option>
+                <option>女</option>
+            </select>
+        </div>
+
+
+        <label for="inputPassword" class="col-sm-2 control-label">
+            创建日期
+        </label>
+        <div class="col-sm-10">
+            <input class="form-control" id="disabledInput" type="text" placeholder="1999-2-2 23：33" disabled>
+        </div>
+
+        <label for="inputPassword" class="col-sm-2 control-label">
+            电话号码
+        </label>
+        <div class="col-sm-10">
+            <input class="form-control" id="disabledInput" type="text" placeholder="13523123321" disabled>
+        </div>
+
+        <label for="inputPassword" class="col-sm-2 control-label">
+            出生日期
+        </label>
+        <div class="col-sm-10">
+            <input class="form-control" id="disabledInput" type="text" placeholder="1998-09-13" disabled>
+        </div>
+
+        <button type="button" id="changepasw" class="btn btn-default">修改密码</button>
+    </div>
+
+    <div class="container" style="width: 25%;position:absolute;left:35%;top:15%;z-index:1003;display:none" id="tankuang">
+        <div class="panel panel-green">
+            <div class="panel-heading">
+                修改密码
+            </div>
+            <div class="panel-body">
+                <div class="input-group input-group-sm">
+                    <span class="input-group-addon"><i class="fa fa-bullhorn fa-fw"></i></span>
+                    <input type="text" class="form-control" placeholder="老密码" id="oldpas" />
+                    <input type="password" class="form-control" placeholder="新密码" id="newpas" />
+                    <input type="password" class="form-control" placeholder="确认新密码密码" id="cnewpas" />
+                </div>
+                <!--按钮-->
+                <div class="row" style="text-align: center; margin-top: 5px;">
+                    <button type="button" class="btn btn-info btn-circle btn-xs" style="margin-right: 40px;" id="doit">
+                        <i class="fa fa-check">确认修改</i>
+                    </button>
+                    <button type="button" class="btn btn-warning btn-circle btn-xs " id="dontdoit">
+                        <i class="fa fa-times">取消</i>
+                    </button>
+                </div>
+            </div>
+            <div class="panel-footer">
+                祝您天天好心情！
+            </div>
+        </div>
+    </div>
+
+<script>
+    $(function () {
+        $("#changepasw").click(function () {
+            $("#tankuang").css("display", "block");
+            mask();
+        })
+    });
+
+    function mask() {
+        $("#mask").css("height", $(document).height());
+        $("#mask").css("width", $(document).width());
+        $("#mask").show();
+    }
+    $("#dontdoit").click(function () {
+        $("#mask").hide();
+        $("#tankuang").css("display", "none");
+    })
+</script>
