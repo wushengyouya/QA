@@ -1,8 +1,7 @@
-﻿@model IList<QA.Models.Doctor>
-@{
+﻿@{
     Layout = null;
 }
-
+@model IList<QA.Models.Section>
 <!DOCTYPE html>
 
 <html>
@@ -11,12 +10,12 @@
     <title>Index</title>
 </head>
 <body>
-    <div>
-        @foreach (var item in Model)
-        {
-            <p style="border:3px solid red;">@item.d_name</p>
-        }
-        
+    <div class="col-lg-12" style="border:1px red solid;text-align:center">
+        <label style="">欢迎进入在线医疗服务</label>
+
     </div>
 </body>
 </html>
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<script src="~/Scripts/bootstrap.min.js"></script>
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>

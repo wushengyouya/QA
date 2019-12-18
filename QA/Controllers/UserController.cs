@@ -1,4 +1,5 @@
-﻿    using System;
+﻿using QA.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,6 +9,7 @@ namespace QA.Controllers
 {
     public class UserController : Controller
     {
+        private OnlineQEntities onlineQEntities = new OnlineQEntities();
         // GET: Login
         public ActionResult Login()
         {
