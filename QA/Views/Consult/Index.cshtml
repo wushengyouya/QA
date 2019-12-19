@@ -72,6 +72,9 @@
     <!--表单-->
     <div class="col-lg-12" style="text-align:center;">
         <form role="form" class="col-lg-12">
+            <!--患者编号-->
+            <input class="form-control" id="p_id" type="text" style="display:none">
+
             <div class="col-lg-3 text-center" style="margin-top:20px;">
                 <label for="name">科室目录</label>
                 <select class="form-control col-lg-12" id="section">
@@ -120,8 +123,8 @@
         $.ajax({
             type: 'POST',
             dataType: 'text',
-            url: "/Home/AddCount",
-            data: { "lovecount": $(this).find("div[class='lovedCount']").text() }
+            url: "/Consult/Index",
+            data: { "section": $("#section").text() }
         });
     });
 

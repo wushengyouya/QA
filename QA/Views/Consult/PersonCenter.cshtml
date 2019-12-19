@@ -20,65 +20,73 @@
 
 <h2>个人中心</h2>
 <div id="mask" class="mask"></div>
-    <div class="form-group col-lg-6">
-        <label for="inputPassword" class="col-sm-2 control-label">
-            账号
-        </label>
-        <div class="col-sm-10">
-            <input class="form-control" id="disabledInput" type="text" placeholder="abc1234" disabled>
-        </div>
-
-        <!---->
-        <label for="inputPassword" class="col-sm-2 control-label">
-            姓名
-        </label>
-        <div class="col-sm-10">
-            <input class="form-control" id="disabledInput" type="text" placeholder="彭其" disabled>
-        </div>
-
-        <!---->
-        <label for="inputPassword" class="col-sm-2 control-label">
-            身份证
-        </label>
-        <div class="col-sm-10">
-            <input class="form-control" id="disabledInput" type="text" placeholder="该输入框禁止输入..." disabled>
-        </div>
-
-        <!---->
-        <label for="inputPassword" class="col-sm-2 control-label">
-            性别
-        </label>
-        <div class="col-sm-10">
-            <select id="disabledSelect" class="form-control">
-                <option>男</option>
-                <option>女</option>
-            </select>
-        </div>
-
-
-        <label for="inputPassword" class="col-sm-2 control-label">
-            创建日期
-        </label>
-        <div class="col-sm-10">
-            <input class="form-control" id="disabledInput" type="text" placeholder="1999-2-2 23：33" disabled>
-        </div>
-
-        <label for="inputPassword" class="col-sm-2 control-label">
-            电话号码
-        </label>
-        <div class="col-sm-10">
-            <input class="form-control" id="disabledInput" type="text" placeholder="13523123321" disabled>
-        </div>
-
-        <label for="inputPassword" class="col-sm-2 control-label">
-            出生日期
-        </label>
-        <div class="col-sm-10">
-            <input class="form-control" id="disabledInput" type="text" placeholder="1998-09-13" disabled>
-        </div>
-
-        <button type="button" id="changepasw" class="btn btn-default">修改密码</button>
+<div class="form-group col-lg-6">
+    <div class="col-sm-12">
+        <button type="button" class="btn btn-primary btn-lg " id="back">返回</button>
     </div>
+
+    <div class="col-sm-10" style="display:none">
+        <input class="form-control" id="ID" type="text" placeholder="abc1234" disabled>
+    </div>
+
+    <label for="inputPassword" class="col-sm-2 control-label">
+        账号
+    </label>
+    <div class="col-sm-10">
+        <input class="form-control" id="p_account" type="text" placeholder="abc1234" disabled>
+    </div>
+
+    <!---->
+    <label for="inputPassword" class="col-sm-2 control-label">
+        姓名
+    </label>
+    <div class="col-sm-10">
+        <input class="form-control" id="p_name" type="text" placeholder="彭其" disabled>
+    </div>
+
+    <!---->
+    <label for="inputPassword" class="col-sm-2 control-label">
+        身份证
+    </label>
+    <div class="col-sm-10">
+        <input class="form-control" id="IDcard" type="text" placeholder="该输入框禁止输入..." disabled>
+    </div>
+
+    <!---->
+    <label for="inputPassword" class="col-sm-2 control-label">
+        性别
+    </label>
+    <div class="col-sm-10">
+        <select class="form-control" disabled="disabled" id="p_sex">
+            <option>男</option>
+            <option>女</option>
+        </select>
+    </div>
+
+
+    <label for="inputPassword" class="col-sm-2 control-label">
+        创建日期
+    </label>
+    <div class="col-sm-10">
+        <input class="form-control" id="enroll_date" type="text" placeholder="1999-2-2 23：33" disabled>
+    </div>
+
+    <label for="inputPassword" class="col-sm-2 control-label">
+        电话号码
+    </label>
+    <div class="col-sm-10">
+        <input class="form-control" id="P_tel" type="text" placeholder="13523123321" disabled>
+    </div>
+
+    <label for="inputPassword" class="col-sm-2 control-label">
+        出生日期
+    </label>
+    <div class="col-sm-10">
+        <input class="form-control" id="birthday" type="text" placeholder="1998-09-13" disabled>
+    </div>
+
+    <button type="button" id="changepasw" class="btn btn-default">修改密码</button>
+</div>
 
     <div class="container" style="width: 25%;position:absolute;left:35%;top:15%;z-index:1003;display:none" id="tankuang">
         <div class="panel panel-green">
@@ -102,9 +110,6 @@
                     </button>
                 </div>
             </div>
-            <div class="panel-footer">
-                祝您天天好心情！
-            </div>
         </div>
     </div>
 
@@ -114,6 +119,9 @@
             $("#tankuang").css("display", "block");
             mask();
         })
+        $("#back").click(function () {
+            javascript: history.back();
+        });
     });
 
     function mask() {
@@ -124,5 +132,17 @@
     $("#dontdoit").click(function () {
         $("#mask").hide();
         $("#tankuang").css("display", "none");
+        $("#oldpas,#newpas,#cnewpas").val("");
+    })
+
+    $("#doit").click(function () {
+        if ($("#oldpas").val().trim() == "" || $("#newpas").val().trim() == "" || $("#cnewpas").val().trim() == "") {
+            alert("请完善密码框");
+        } else if ($("#newpas").val().trim() != $("#cnewpas").val().trim()) {
+            alert("确认密码和新密码不相同！");
+        } else {
+            alert("成功");
+            $("#oldpas,#newpas,#cnewpas").val("");
+        }
     })
 </script>

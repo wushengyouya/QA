@@ -21,6 +21,10 @@
     .active {
         pointer-events: none;
     }
+    .lasttd {
+    color:red;
+    font-weight:bold;
+    }
     
 </style>
 <button type="button" class="btn btn-primary btn-lg " id="back">返回</button>
@@ -30,8 +34,9 @@
             <tr>
                 <th style="width:15%">咨询编号</th>
                 <th style="width:15%">创建日期</th>
-                <th style="width:25%">咨询内容</th>
-                <th style="width:25%">解答内容</th>
+                <th style="width:22%">咨询内容</th>
+                <th style="width:22%">解答内容</th>
+                <th style="width:10%">咨询医生</th>
                 <th>评分</th>
             </tr>
         </thead>
@@ -40,7 +45,8 @@
                 <td>1231231</td>
                 <td>2019-03-12</td>
                 <td>我爱你</td>
-                <td>暂无回答</td>
+                <td>滚</td>
+                <td>麻拐大师</td>
                 <td class="lasttd">
                     <select class="form-control col-lg-5 selectdo">
                         <option>0</option>
@@ -73,42 +79,30 @@
                     我爱你阿瓦达无多挖到啊
                 </td>
                 <td>暂无回答</td>
+                <td>哈巴狗</td>
                 <td class="lasttd">
-                    <select class="form-control col-lg-5 selectdo">
-                        <option>0</option>
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
-                        <option>5</option>
-                        <option>6</option>
-                        <option>7</option>
-                        <option>8</option>
-                        <option>9</option>
-                        <option>10</option>
-                    </select>
-                    <button type="button" class="btn btn-success confirmbtn">确认</button>
+                    等待回答
                 </td>
             </tr>
             <tr>
                 <td>1231231</td>
                 <td>2010-03-12</td>
                 <td>你吗怪</td>
+                <td>网</td>
                 <td>阿瓦达无大无</td>
-                <td>10.0</td>
+                <td class="lasttd">10.0</td>
             </tr>
         </tbody>
     </table>
     <div style="text-align:center">
         <ul class="pagination pagination-sm">
-            <li><a href="#">&laquo;</a></li>
-            <li><a href="#">1</a></li>
-            <li><a href="#">2</a></li>
-            <li><a href="#">3</a></li>
-            <li><a href="#">4</a></li>
-            <li><a href="#">5</a></li>
-            <li><a href="#">&raquo;</a></li>
+            <li class="divide"><a href="#">&laquo;</a></li>
+            <li class="divide"><a href="#">1</a></li>
+            <li class="divide"><a href="#">2</a></li>
+            <li class="divide"><a href="#">3</a></li>
+            <li class="divide"><a href="#">4</a></li>
+            <li class="divide"><a href="#">5</a></li>
+            <li class="divide"><a href="#">&raquo;</a></li>
         </ul>
     </div>
     
@@ -120,10 +114,16 @@
             javascript: history.back();
         });
 
+        $(".divide").click(function () {
+            $(this).addClass("active");
+            $(this).siblings().removeClass("active");
+        })
+
+
         $(".confirmbtn").bind("click", function () {
             var c_no = $(this).parent().siblings(0).html();//获取编号
             
-            var r = window.confirm("确认要删除"+c_no+"吗?");
+            var r = window.confirm("确认要评分为"+c_no+"吗?");
             if (r) {
                 var points = $(this).siblings(0).val(); // 评分分数
                 var item = $(this).parent();
