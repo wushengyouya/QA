@@ -7,47 +7,56 @@
 
 <style>
 
-    tr th,td{
+    tr th, td {
         vertical-align: middle;
         text-align: center;
     }
+
     .selectdo {
         width: 30%;
         margin-left: 20%;
     }
+
     .confirmbtn {
-       
     }
+
     .active {
         pointer-events: none;
     }
+
     .lasttd {
-    color:red;
-    font-weight:bold;
+        color: red;
+        font-weight: bold;
     }
-    
+    .showtext {
+        width: 100%;
+        resize: none;
+        overflow-y: scroll;
+        
+    }
 </style>
+<div id="mask" class="mask"></div>
 <button type="button" class="btn btn-primary btn-lg " id="back">返回</button>
 <div>
     <!--需要整个咨询元组和医生姓名，总页数，当前页码-->
     <table class="table table-striped">
         <thead>
             <tr>
-                <th style="width:15%">咨询编号</th>
+                <th style="width:12%">咨询编号</th>
                 <th style="width:15%">创建日期</th>
-                <th style="width:22%">咨询内容</th>
-                <th style="width:22%">解答内容</th>
                 <th style="width:10%">咨询医生</th>
-                <th>评分</th>
+                <th style="width:10%">解答状态</th>
+                <th style="width:5%">详情</th>
+                <th style="width:14%">评分</th>
             </tr>
         </thead>
         <tbody>
             <tr>
                 <td>1231231</td>
                 <td>2019-03-12</td>
-                <td>我爱你</td>
                 <td>滚</td>
-                <td>麻拐大师</td>
+                <td><span class="label label-primary">未评分</span></td>
+                <td><a style="cursor:pointer" class="more">更多</a></td>
                 <td class="lasttd">
                     <select class="form-control col-lg-5 selectdo">
                         <option>0</option>
@@ -69,18 +78,11 @@
             <tr>
                 <td>22333</td>
                 <td>2019-11-12</td>
-                <td>
-                    我爱你阿瓦达无多挖到啊
-                    我爱你阿瓦达无多挖到啊
-                    我爱你阿瓦达无多挖到啊
-                    我爱你阿瓦达无多挖到啊
-                    我爱你阿瓦达无多挖到啊
-                    我爱你阿瓦达无多挖到啊
-                    我爱你阿瓦达无多挖到啊
-                    我爱你阿瓦达无多挖到啊
-                </td>
+                
                 <td>暂无回答</td>
-                <td>哈巴狗</td>
+                <td><span class="label label-danger">未解答</span></td>
+                <td><a style="cursor:pointer" class="more">更多</a></td>
+
                 <td class="lasttd">
                     等待回答
                 </td>
@@ -88,9 +90,9 @@
             <tr>
                 <td>1231231</td>
                 <td>2010-03-12</td>
-                <td>你吗怪</td>
                 <td>网</td>
-                <td>阿瓦达无大无</td>
+                <td><span class="label label-success">已解答</span></td>
+                <td><a style="cursor:pointer" class="more">更多</a></td>
                 <td class="lasttd">10.0</td>
             </tr>
         </tbody>
@@ -106,11 +108,37 @@
             <li class="divide"><a href="#">&raquo;</a></li>
         </ul>
     </div>
-    
+
+    <div class="container" style="width: 35%;position:absolute;left:35%;top:15%;z-index:1003;display:none" id="tankuang">
+        <div class="panel panel-green">
+            <div class="panel-heading">
+                咨询详情
+            </div>
+            <div class="panel-body">
+                <div class="input-group input-group-sm">
+                    <span>咨询内容:</span>
+                    <textarea readonly="readonly" class="showtext" rows="6" id="qtext"></textarea>
+                    <span>解答内容:</span>
+                    <textarea readonly="readonly" class="showtext" rows="6" id="atext"></textarea>
+                </div>
+                <!--按钮-->
+                <div class="row" style="text-align: center; margin-top: 5px;">
+                    <button type="button" class="btn btn-warning btn-circle btn-xs " id="dontdoit">
+                        <i class="fa fa-times">关闭</i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script>
     $(function () {
+        $(".more").click(function () {
+            mask();
+            $("#tankuang").css("display", "block");
+        })
+
         $("#back").click(function () {
             javascript: history.back();
         });
@@ -123,8 +151,8 @@
 
         $(".confirmbtn").bind("click", function () {
             var c_no = $(this).parent().siblings(0).html();//获取编号
-            
-            var r = window.confirm("确认要评分为"+c_no+"吗?");
+
+            var r = window.confirm("确认要评分为" + c_no + "吗?");
             if (r) {
                 var points = $(this).siblings(0).val(); // 评分分数
                 var item = $(this).parent();
@@ -135,8 +163,16 @@
             }
 
         })
-
-        
     });
-    
+    function mask() {
+        $("#mask").css("height", $(document).height());
+        $("#mask").css("width", $(document).width());
+        $("#mask").show();
+    }
+
+    $("#dontdoit").click(function () {
+        $("#mask").hide();
+        $("#tankuang").css("display", "none");
+        $("#oldpas,#newpas,#cnewpas").val("");
+    })
 </script>
