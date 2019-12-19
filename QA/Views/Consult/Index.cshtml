@@ -41,8 +41,9 @@
         <div class="pull-right">
             <ul class="nav navbar-nav">
                 <li class="dropdown">
+                    <span id="userID" style="display:none">需要用户id</span>
                     <span style="height:50px;line-height:50px" id="userName">
-                        你好，问你打我的欧安我读AOI
+                        你好，需要用户名
                     </span>
                 </li>
                 <li class="dropdown">
@@ -93,9 +94,10 @@
                     <tr>
                         <!--科室目录-->
                         <td>
+                            <!--需要科室名称及其id-->
                             <select class="form-control col-lg-12" id="section">
                                 <option value="">默认选择</option>
-                                <option>儿科</option>
+                                <option value="1">儿科</option>
                                 <option>妇科</option>
                                 <option>男科</option>
                                 <option>外科</option>
@@ -104,7 +106,8 @@
                         </td>
                         <!--医生目录-->
                         <td>
-                            <select class="form-control col-lg-12" id="doctor">
+                            <!--需要医生名称，医生个人简介及其id-->
+                            <select class="form-control col-lg-12" id="doctor" disabled="disabled">
                                 <option value="">默认选择</option>
                                 <option>你妈怪</option>
                                 <option>滚</option>
@@ -152,7 +155,8 @@
     });
 
     $("#section").change(function (e) {
-        $.ajax({
+        $("#doctor").attr('disabled', false); // 如果科室没选，医生选不了
+        $.ajax({ //需要通过科室id查找相对应的医生名称，我会传入后台一列咨询元组
             type: 'POST',
             dataType: 'text',
             url: "/Consult/Index",
