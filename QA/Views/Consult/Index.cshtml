@@ -25,6 +25,12 @@
     #begin:active {
         text-decoration: none;
     }
+    #consultsub tr,td {
+        text-align:center;
+    }
+        #consultsub tr th {
+        text-align:center;
+        }
 </style>
 <!--导航栏-->
 <div class="col-lg-12" id="bak" style="height: 770px;
@@ -35,7 +41,7 @@
         <div class="pull-right">
             <ul class="nav navbar-nav">
                 <li class="dropdown">
-                    <span style="height:50px;line-height:50px">
+                    <span style="height:50px;line-height:50px" id="userName">
                         你好，问你打我的欧安我读AOI
                     </span>
                 </li>
@@ -74,43 +80,69 @@
         <form role="form" class="col-lg-12">
             <!--患者编号-->
             <input class="form-control" id="p_id" type="text" style="display:none">
+            <table id="consultsub">
+                <thead>
+                    <tr>
+                        <th style="width:16%">科室目录</th>
+                        <th style="width:16%">咨询医生</th>
+                        <th style="width:50%">咨询内容</th>
+                        <th style="width:10%"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <!--科室目录-->
+                        <td>
+                            <select class="form-control col-lg-12" id="section">
+                                <option value="">默认选择</option>
+                                <option>儿科</option>
+                                <option>妇科</option>
+                                <option>男科</option>
+                                <option>外科</option>
+                                <option>内科</option>
+                            </select>
+                        </td>
+                        <!--医生目录-->
+                        <td>
+                            <select class="form-control col-lg-12" id="doctor">
+                                <option value="">默认选择</option>
+                                <option>你妈怪</option>
+                                <option>滚</option>
+                                <option>哈巴狗师傅</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <!--医生简介-->
+                        <td>
+                            <button type="button" class="btn btn-warning" title="医生简介" id="content"
+                                    data-container="body" data-toggle="popover" data-placement="bottom"
+                                    data-content="右侧的 Popover 中的一些内容" disabled="disabled">
+                                请先选择医生
+                            </button>
+                        </td>
+                        <!--咨询内容-->
+                        <td><textarea class="form-control" rows="6" id="textarea" style="resize:none"></textarea></td>
+                        
+                        <!--提交咨询-->
+                        <td>
+                            <div class="form-group">
+                                <button id="subtn" type="button" class="btn btn-default btn-lg ">提交咨询</button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
 
-            <div class="col-lg-3 text-center" style="margin-top:20px;">
-                <label for="name">科室目录</label>
-                <select class="form-control col-lg-12" id="section">
-                    <option value="">默认选择</option>
-                    <option>儿科</option>
-                    <option>妇科</option>
-                    <option>男科</option>
-                    <option>外科</option>
-                    <option>内科</option>
-                </select>
-            </div>
-
-            <div class="col-lg-3 text-center" style="margin-top:20px;">
-                <label for="name">医生目录</label>
-                <select class="form-control col-lg-12" id="doctor">
-                    <option value="">默认选择</option>
-                    <option>王师傅</option>
-                    <option>男师傅</option>
-                    <option>张医生</option>
-                    <option>麻拐</option>
-                </select>
-            </div>
-
-            <div class="form-group col-lg-6">
-                <label for="name">文本框</label>
-                <textarea class="form-control" rows="6" id="textarea"></textarea>
-            </div>
-            <button id="subtn" type="button" class="btn btn-default btn-lg ">提交咨询</button>
         </form>
-
-
-
     </div>
 
 </div>
 <script>
+    $(function () {
+        $("[data-toggle='popover']").popover();
+    })
     $("#subtn").click(function () {
         if ($("#textarea").val().trim() == "" || $("#doctor").val().trim() == "" || $("#section").val().trim() == "") {
             alert("请完善填写信息");
@@ -127,6 +159,17 @@
             data: { "section": $("#section").text() }
         });
     });
+
+    $("#doctor").change(function () {
+        if ($(this).val() == "") {
+            $("#content").html("请选择医生");
+            $("#content").attr('disabled', true);
+        } else {
+            $("#content").attr('disabled', false);
+            $("#content").html("点击查看" + $(this).val());
+        }
+        
+    })
 
     $("#enterCBtn").click(function () {
         window.location.href = "/Consult/ConsultCenter";
