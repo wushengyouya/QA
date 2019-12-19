@@ -30,7 +30,7 @@ namespace QA.Controllers
         public ActionResult PersonCenter(string id)
         {
             Patient patientItem = onlineQEntities.Patients.FirstOrDefault(p => p.ID.Equals(id));
-            return View(patientItem);
+            return View();
         }
 
     }
