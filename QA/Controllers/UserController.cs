@@ -40,26 +40,19 @@ namespace QA.Controllers
             return Content("密码或用户名错误");
         }
 
-        /// <summary>
-        /// 患者个人信息
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        public ActionResult PatientPersonal(string id)
-        {
-            var patient = onlineQEntities.Patients.First(p => p.ID == id);
-            return View(patient);
-        }
+        
+
+        
 
         /// <summary>
         /// 医生个人信息
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public ActionResult DoctorPersonal(string id)
+        public ActionResult DoctorInfo(string id)
         {
             var doctor = onlineQEntities.Doctors.First(d => d.Id == id);
-            return View(doctor);
+            return Json(doctor);
         }
 
         /// <summary>

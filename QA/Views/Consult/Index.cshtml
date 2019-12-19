@@ -2,8 +2,8 @@
 @{
     ViewBag.Title = "Index";
 }
-@using QA.Models;
-@model List<Patient>
+@using QA.ViewModels;
+@model IndexModel
 <style>
     .dropdown {
         font-size: 20px;
@@ -41,13 +41,13 @@
         <div class="pull-right">
             <ul class="nav navbar-nav">
                 <li class="dropdown">
-                    <span id="userID" style="display:none">需要用户id</span>
+                    <span id="userID" style="display:none">@Model.CurrentUser.ID</span>
                     <span style="height:50px;line-height:50px" id="userName">
-                        你好，需要用户名
+                        @Model.CurrentUser.p_Name
                     </span>
                 </li>
                 <li class="dropdown">
-                    <a id="enterPBtn" href="~/Consult/PersonCenter?id=41427315cc1149a9a4d2ce22e093de5c" data-toggle="dropdown">
+                    <a id="enterPBtn" href="~/Consult/PersonCenter?userId=@Model.CurrentUser.ID" data-toggle="dropdown">
                         个人中心
                     </a>
                 </li>
@@ -97,11 +97,12 @@
                             <!--需要科室名称及其id-->
                             <select class="form-control col-lg-12" id="section">
                                 <option value="">默认选择</option>
-                                <option value="1">儿科</option>
-                                <option>妇科</option>
-                                <option>男科</option>
-                                <option>外科</option>
-                                <option>内科</option>
+                                @{
+                                    foreach (var item in Model.Sections)
+                                    {
+                                        <option value="@item.Id">@item.s_name</option>
+                                    }
+                                }                              
                             </select>
                         </td>
                         <!--医生目录-->
@@ -180,7 +181,7 @@
     });
 
     $("#enterPBtn").click(function () {
-        window.location.href = "/Consult/PersonCenter";
+        window.location.href = "/Consult/PersonCenter?userId=@Model.CurrentUser.ID";
     })
 </script>
 
