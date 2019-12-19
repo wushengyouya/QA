@@ -31,7 +31,7 @@ namespace QA.Controllers
             }
 
             //医生登录
-            var doctorInfo = onlineQEntities.Doctors.FirstOrDefault(d => d.d_account.Equals(userAccount);)
+            var doctorInfo = onlineQEntities.Doctors.FirstOrDefault(d => d.d_account.Equals(userAccount));
             if(doctorInfo!=null && doctorInfo.d_account.Equals(userAccount) && doctorInfo.password.Equals(userPwd))
             {
                 //跳转至回答咨询界面

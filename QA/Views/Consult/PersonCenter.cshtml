@@ -1,4 +1,4 @@
-﻿
+﻿@model  QA.Models.Patient
 @{
     ViewBag.Title = "PersonCenter";
 }
@@ -19,7 +19,6 @@
 </style>
 
 <h2>个人中心</h2>
-<!--需要用户元组-->
 <div id="mask" class="mask"></div>
 <div class="form-group col-lg-6">
     <div class="col-sm-12">
@@ -27,14 +26,14 @@
     </div>
 
     <div class="col-sm-10" style="display:none">
-        <input class="form-control" id="ID" type="text" placeholder="abc1234" disabled>
+        <input class="form-control" id="ID" type="text" placeholder="@Model.ID" disabled>
     </div>
 
     <label for="inputPassword" class="col-sm-2 control-label">
         账号
     </label>
     <div class="col-sm-10">
-        <input class="form-control" id="p_account" type="text" placeholder="abc1234" disabled>
+        <input class="form-control" id="p_account" type="text" placeholder="@Model.p_account" disabled>
     </div>
 
     <!---->
@@ -42,7 +41,7 @@
         姓名
     </label>
     <div class="col-sm-10">
-        <input class="form-control" id="p_name" type="text" placeholder="彭其" disabled>
+        <input class="form-control" id="p_name" type="text" placeholder="@Model.p_Name" disabled>
     </div>
 
     <!---->
@@ -50,7 +49,7 @@
         身份证
     </label>
     <div class="col-sm-10">
-        <input class="form-control" id="IDcard" type="text" placeholder="该输入框禁止输入..." disabled>
+        <input class="form-control" id="IDcard" type="text" placeholder="@Model.Idcard." disabled>
     </div>
 
     <!---->
@@ -58,7 +57,7 @@
         性别
     </label>
     <div class="col-sm-10">
-        <input class="form-control" id="p_sex" type="text" placeholder="男" disabled>
+        <input class="form-control" id="p_sex" type="text" placeholder="@Model.p_sex." disabled>
     </div>
 
 
@@ -66,21 +65,21 @@
         创建日期
     </label>
     <div class="col-sm-10">
-        <input class="form-control" id="enroll_date" type="text" placeholder="1999-2-2 23：33" disabled>
+        <input class="form-control" id="enroll_date" type="text" placeholder="@Model.Enroll_date" disabled>
     </div>
 
     <label for="inputPassword" class="col-sm-2 control-label">
         电话号码
     </label>
     <div class="col-sm-10">
-        <input class="form-control" id="P_tel" type="text" placeholder="13523123321" disabled>
+        <input class="form-control" id="P_tel" type="text" placeholder="@Model.p_tel" disabled>
     </div>
 
     <label for="inputPassword" class="col-sm-2 control-label">
         出生日期
     </label>
     <div class="col-sm-10">
-        <input class="form-control" id="birthday" type="text" placeholder="1998-09-13" disabled>
+        <input class="form-control" id="birthday" type="text" placeholder="@Model.Birthday" disabled>
     </div>
 
     <button type="button" id="changepasw" class="btn btn-default">修改密码</button>

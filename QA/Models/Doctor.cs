@@ -48,5 +48,8 @@ namespace QA.Models
 
         //评分
         public Nullable<decimal> points { get; set; }
+
+        //科室编号
+         public string s_id { get; set; }
     }
 }

@@ -117,6 +117,11 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\Model1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Views\Login\App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\ConsultController.cs" />
     <Compile Include="Controllers\UserController.cs" />
