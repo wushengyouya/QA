@@ -13,17 +13,19 @@ namespace QA.Controllers
     {
         private OnlineQEntities onlineQEntities = new OnlineQEntities();
         List<Section> SecResources { get; set; } = new List<Section>(); //用于显示科室
-        List<Doctor> DocResources { get; set; } = new List<Doctor>(); 
+        List<Doctor> DocResources { get; set; } = new List<Doctor>();
 
         
-        
+        //登录后创建 ---------待修改 
+        private Patient CurrentUser =>  onlineQEntities.Patients.FirstOrDefault();
+
+
         public ActionResult Index()
         {
-            //登录后创建 ---------待修改
-            Session["currentUser"] = onlineQEntities.Patients.FirstOrDefault();
-            IndexModel indexModel = new IndexModel
+           
+            IndexViewModel indexModel = new IndexViewModel
             {
-                CurrentUser = (Patient)Session["currentUser"],
+                CurrentUser = CurrentUser,
                 Sections = onlineQEntities.Sections
             };
            
@@ -32,8 +34,26 @@ namespace QA.Controllers
         }
 
         //咨询中心
-        public ActionResult ConsultCenter() {
-            return View();
+        public ActionResult ConsultCenter(int pageIndex=1,int pageSize=1)
+        {
+            var item = onlineQEntities.Consults.Where(p => p.p_id.Equals(CurrentUser.ID));
+
+            //当前用户所有咨询条数
+            var consults = from c in onlineQEntities.Consults
+                            join d in onlineQEntities.Doctors
+                            on c.d_id equals d.Id
+                            select new ConsultCenterViewModel
+                            {
+                                CurrentDoctor = d,
+                                Consult = c,
+                            };
+
+            //总页数
+            ViewBag.PageCount = Math.Ceiling(consults.Count() / pageSize*1.0);
+
+            //当前页条数
+            consults = consults.OrderBy(p => p.Consult.Id).Skip((pageIndex - 1) * pageSize).Take(pageSize);
+            return View(consults);
         }
 
         /// <summary>
@@ -47,6 +67,7 @@ namespace QA.Controllers
             string url = Request.Url.AbsoluteUri;
             string userId = Request["userId"];
             var patient = onlineQEntities.Patients.FirstOrDefault(p => p.ID == userId);
+
             return View(patient);
         }
 

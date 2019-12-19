@@ -6,7 +6,7 @@ using System.Web;
 
 namespace QA.ViewModels
 {
-    public class IndexModel
+    public class IndexViewModel
     {
 
         public Patient CurrentUser { get; set; }

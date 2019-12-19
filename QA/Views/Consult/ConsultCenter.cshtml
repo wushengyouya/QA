@@ -2,7 +2,7 @@
 @{
     ViewBag.Title = "ConsultCenter";
 }
-
+@model IEnumerable<QA.ViewModels.ConsultCenterViewModel>
 <h2>咨询中心</h2>
 
 <style>
@@ -51,12 +51,28 @@
             </tr>
         </thead>
         <tbody>
+            @{
+                foreach (var item in Model)
+                {
             <tr>
-                <td>1231231</td>
-                <td>2019-03-12</td>
-                <td>滚</td>
-                <td><span class="label label-primary">未评分</span></td>
-                <td><a style="cursor:pointer" class="more">更多</a></td>
+
+                <td>@item.Consult.Id</td>
+                <td>@item.Consult.create_date</td>
+                <td>@item.CurrentDoctor.d_name</td>
+                @switch (item.Consult.state)
+                {
+                    case 0:
+                        <td><span class="label label-danger">未解答</span></td>
+                        break;
+                    case 1:
+                        <td><span class="label label-primary">未评分</span></td>
+                        break;
+                    case 2:
+                        <td><span class="label label-success">已解答</span></td>
+                        break;
+                }
+                @*<td><span class="label label-primary">未评分</span></td>*@
+                <td><a style="cursor:pointer" class="more" A_describe="@item.Consult.A_describe" Q_describe="@item.Consult.Q_describe" onclick="showDescribe(this)">更多</a></td>
                 <td class="lasttd">
                     <select class="form-control col-lg-5 selectdo">
                         <option>0</option>
@@ -75,36 +91,25 @@
                     <button type="button" class="btn btn-success confirmbtn">确认</button>
                 </td>
             </tr>
-            <tr>
-                <td>22333</td>
-                <td>2019-11-12</td>
-                
-                <td>暂无回答</td>
-                <td><span class="label label-danger">未解答</span></td>
-                <td><a style="cursor:pointer" class="more">更多</a></td>
+                }
+                        }
 
-                <td class="lasttd">
-                    等待回答
-                </td>
-            </tr>
-            <tr>
-                <td>1231231</td>
-                <td>2010-03-12</td>
-                <td>网</td>
-                <td><span class="label label-success">已解答</span></td>
-                <td><a style="cursor:pointer" class="more">更多</a></td>
-                <td class="lasttd">10.0</td>
-            </tr>
+          
         </tbody>
     </table>
     <div style="text-align:center">
         <ul class="pagination pagination-sm">
-            <li class="divide"><a href="#">&laquo;</a></li>
-            <li class="divide"><a href="#">1</a></li>
-            <li class="divide"><a href="#">2</a></li>
-            <li class="divide"><a href="#">3</a></li>
-            <li class="divide"><a href="#">4</a></li>
-            <li class="divide"><a href="#">5</a></li>
+            <li class="divide"><a href="">&laquo;</a></li>
+            <li class="divide active"><a href="/Consult/ConsultCenter?pageIndex=1">1</a></li>
+
+            @{
+                for (int i = 2; i <= ViewBag.PageCount; i++)
+                { 
+                   <li class="divide"><a href="/Consult/ConsultCenter?pageIndex=@i">@i</a></li>
+                }
+
+            }
+
             <li class="divide"><a href="#">&raquo;</a></li>
         </ul>
     </div>
@@ -175,4 +180,10 @@
         $("#tankuang").css("display", "none");
         $("#oldpas,#newpas,#cnewpas").val("");
     })
+
+    //展示资源详情
+    function showDescribe(obj) {
+        $('#qtext').text($(obj).attr('Q_describe'));
+        $('#atext').text($(obj).attr('A_describe'));
+    }
 </script>
