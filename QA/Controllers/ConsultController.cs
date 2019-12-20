@@ -51,6 +51,9 @@ namespace QA.Controllers
             //总页数
             ViewBag.PageCount = Math.Ceiling(consults.Count() / pageSize*1.0);
 
+            //当前页码
+            ViewBag.PageIndex = pageIndex;
+
             //当前页条数
             consults = consults.OrderBy(p => p.Consult.Id).Skip((pageIndex - 1) * pageSize).Take(pageSize);
             return View(consults);
@@ -70,9 +73,6 @@ namespace QA.Controllers
 
             return View(patient);
         }
-
-
-
 
     }
 }

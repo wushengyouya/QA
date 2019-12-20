@@ -60,11 +60,11 @@ namespace QA.Controllers
         /// </summary>
         /// <param name="doctor"></param>
         /// <returns></returns>
-        public ActionResult UpdatePatientInfo(Doctor doctor)
+        public string UpdatePatientInfo(string userId,string newpas)
         {
-            onlineQEntities.Entry(doctor);
+            onlineQEntities.Patients.FirstOrDefault(p => p.ID == userId).Password=newpas;
             SaveChanges();
-            return View("PatientPersonal");
+            return "y";
         }
 
         /// <summary>

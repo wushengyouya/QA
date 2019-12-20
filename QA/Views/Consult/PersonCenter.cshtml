@@ -13,9 +13,9 @@
     <div class="col-sm-12">
         <button type="button" class="btn btn-primary btn-lg " id="back">返回</button>
     </div>
-
+    <input type="text" class="form-control" style="display:none" id="password" value="@Model.Password" />
     <div class="col-sm-10" style="display:none">
-        <input class="form-control" id="ID" type="text" placeholder="@Model.ID" disabled>
+        <input class="form-control" id="ID" type="text" value="@Model.ID" disabled>
     </div>
 
     <label for="inputPassword" class="col-sm-2 control-label">
@@ -99,22 +99,27 @@
         </div>
     </div>
 
-<script>
+    <script>
     $(function () {
-        $("#changepasw").click(function () {
-            $("#tankuang").css("display", "block");
-            mask();
-        })
-        $("#back").click(function () {
-            javascript: history.back();
-        });
+
     });
 
+    $("#back").click(function () {
+        javascript: history.back();
+    });
+
+    $("#changepasw").click(function () {
+        $("#tankuang").css("display", "block");
+        mask();
+    })
     function mask() {
         $("#mask").css("height", $(document).height());
         $("#mask").css("width", $(document).width());
         $("#mask").show();
     }
+
+
+
     $("#dontdoit").click(function () {
         $("#mask").hide();
         $("#tankuang").css("display", "none");
@@ -126,9 +131,28 @@
             alert("请完善密码框");
         } else if ($("#newpas").val().trim() != $("#cnewpas").val().trim()) {
             alert("确认密码和新密码不相同！");
+            $("#newpas,#cnewpas").val("");
+        } else if($("#newpas").val().length < 6){
+            alert("密码不得小于6位");
+            $("#newpas,#cnewpas").val("");
         } else {
-            alert("成功");
-            $("#oldpas,#newpas,#cnewpas").val("");
+            if ($("#oldpas").val() !=$("#password").val()) {
+                alert("原密码错误!");
+                $("#oldpas,#newpas,#cnewpas").val("");
+            } else {
+                $.ajax({
+                type: 'POST',
+                dataType: 'html',
+                    url: "/User/UpdatePatientInfo",
+                    data: { "userId": $("#ID").val(), "newpas": $("#newpas").val() },
+                success: function (data) {
+                    alert("修改密码成功!");
+                    $("#mask").hide();
+                    $("#tankuang").css("display", "none");
+                    $("#oldpas,#newpas,#cnewpas").val("");
+                }
+            });
+            }
         }
     })
-</script>
+    </script>
