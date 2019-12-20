@@ -34,7 +34,7 @@ namespace QA.Controllers
         }
 
         //咨询中心
-        public ActionResult ConsultCenter(int pageIndex=1,int pageSize=1)
+        public ActionResult ConsultCenter(int pageIndex=1,int pageSize=3)
         {
             var item = onlineQEntities.Consults.Where(p => p.p_id.Equals(CurrentUser.ID));
 
@@ -63,8 +63,7 @@ namespace QA.Controllers
         /// 患者个人信息
         /// </summary>
         /// <param name="id"></param>
-        /// <returns></returns>
-       
+        /// <returns></returns>   
         public ActionResult PersonCenter()
         {
             string url = Request.Url.AbsoluteUri;

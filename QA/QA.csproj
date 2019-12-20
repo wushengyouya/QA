@@ -114,6 +114,9 @@
     <Content Include="Scripts\js\bootstrap.min.js" />
     <Content Include="Scripts\js\jquery-1.9.1.min.js" />
     <Content Include="Scripts\js\jquery.singlePageNav.min.js" />
+    <Content Include="Scripts\登录\jquery.min.js" />
+    <Content Include="Scripts\登录\style.css" />
+    <Content Include="Scripts\登录\vector.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -126,7 +129,6 @@
     </Compile>
     <Compile Include="ViewModels\ConsultCenterViewModel.cs" />
     <Compile Include="ViewModels\IndexViewModel.cs" />
-    <Compile Include="Views\Login\App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\ConsultController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
@@ -174,6 +176,9 @@
     <Content Include="Views\Consult\Index.cshtml" />
     <Content Include="Views\Consult\ConsultCenter.cshtml" />
     <Content Include="Views\Consult\PersonCenter.cshtml" />
+    <Content Include="Views\DoctorPersonal.cshtml" />
+    <Content Include="Views\PatientPersonal.cshtml" />
+    <Content Include="Views\User\Login.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

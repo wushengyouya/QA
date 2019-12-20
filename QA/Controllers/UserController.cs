@@ -16,19 +16,19 @@ namespace QA.Controllers
         /// 用户登录
         /// </summary>
         /// <returns></returns>
-        public ActionResult Login(int flag,string userAccount,string userPwd)
+        [HttpPost]
+        public ActionResult Login(string userAccount,string userPwd)
         {
-            //病人登录
-            if (flag==0)
+            //病人登录          
+            var patientInfo = onlineQEntities.Patients.FirstOrDefault(p => p.p_account.Equals(userAccount));
+            if(patientInfo !=null && patientInfo.p_account.Equals(userAccount) && patientInfo.Password.Equals(userPwd))
             {
-                var patientInfo = onlineQEntities.Patients.FirstOrDefault(p => p.p_account.Equals(userAccount));
-                if(patientInfo !=null && patientInfo.p_account.Equals(userAccount) && patientInfo.Equals(userPwd))
-                {
-                    //跳转至选择科室界面,目前展示的是个人信息界面
-                    return View("PatientPersonal");
-                }
-                   
+                //跳转至选择科室界面,目前展示的是个人信息界面
+                return Redirect("/Consult/Index");
             }
+            
+                   
+           
 
             //医生登录
             var doctorInfo = onlineQEntities.Doctors.FirstOrDefault(d => d.d_account.Equals(userAccount));
@@ -37,12 +37,22 @@ namespace QA.Controllers
                 //跳转至回答咨询界面
                 return View("DoctorPersonal");
             }
-            return Content("密码或用户名错误");
+            ViewBag.Msg = "用户名或密码错误";
+            return View();
+        }
+        /// <summary>
+        /// 用户登录
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult Login()
+        {
+            return View();
         }
 
-        
 
-        
+
+
 
         /// <summary>
         /// 医生个人信息
