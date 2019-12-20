@@ -147,6 +147,7 @@
                     data: { "userId": $("#ID").val(), "newpas": $("#newpas").val() },
                 success: function (data) {
                     alert("修改密码成功!");
+                    window.location.href = "/User/Login";
                     $("#mask").hide();
                     $("#tankuang").css("display", "none");
                     $("#oldpas,#newpas,#cnewpas").val("");

@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Newtonsoft.Json;
+
 
 namespace QA.Controllers
 {
@@ -28,13 +30,12 @@ namespace QA.Controllers
                 CurrentUser = CurrentUser,
                 Sections = onlineQEntities.Sections
             };
-           
             
             return View(indexModel);
         }
 
         //咨询中心
-        public ActionResult ConsultCenter(int pageIndex=1,int pageSize=3)
+        public ActionResult ConsultCenter(int pageIndex=1,int pageSize=5)
         {
             var item = onlineQEntities.Consults.Where(p => p.p_id.Equals(CurrentUser.ID));
 
@@ -73,5 +74,68 @@ namespace QA.Controllers
             return View(patient);
         }
 
+        /// <summary>
+        /// 修改咨询评分
+        /// </summary>
+        /// <param name="points"></param>
+        /// <returns></returns>
+        public string ChangesPoints(string userId,int point) {
+            //修改评分
+            onlineQEntities.Consults.FirstOrDefault(p => p.Id == userId).points = point;
+            //修改状态
+            onlineQEntities.Consults.FirstOrDefault(p => p.Id == userId).state = 2;
+            onlineQEntities.SaveChanges();
+            return "y";
+        }
+
+        /// <summary>
+        /// 显示医生编号和姓名
+        /// </summary>
+        /// <param name="consultInfo"></param>
+        /// <returns></returns>
+        public string ShowDoctors(string sectionId) {
+
+            var consults = from s in onlineQEntities.Sections
+                           join d in onlineQEntities.Doctors
+                           on s.Id equals d.s_id where(s.Id==sectionId)
+                           select new DoctorsTwo
+                           {
+                               id = d.Id,
+                               d_name = d.d_name,
+                           };
+            return JsonConvert.SerializeObject(consults);
+        }
+
+        /// <summary>
+        /// 显示医生个人简介
+        /// </summary>
+        /// <param name="consultInfo"></param>
+        /// <returns></returns>
+        public string ShowDoctorsBrief(string doctorId)
+        {
+            return onlineQEntities.Doctors.First(d => d.Id == doctorId).brief.ToString();
+        }
+
+        /// <summary>
+        /// 添加咨询信息
+        /// </summary>
+        /// <param name="consultInfo"></param>
+        /// <returns></returns>
+        public string AddConsultInfo(string Q_describe,string p_id,string d_id) {
+            var uuid = Guid.NewGuid().ToString("N");
+            Consult cs = new Consult
+            {
+                Id = uuid,
+                create_date = DateTime.Now,
+                Q_describe = Q_describe,
+                state = 0,
+                p_id = p_id,
+                d_id = d_id,
+                points = null,
+            };
+            onlineQEntities.Consults.Add(cs);
+            onlineQEntities.SaveChanges();
+            return "y";
+        }
     }
 }

@@ -108,10 +108,8 @@
                         <td>
                             <!--需要医生名称，医生个人简介及其id-->
                             <select class="form-control col-lg-12" id="doctor" disabled="disabled">
-                                <option value="">默认选择</option>
-                                <option>你妈怪</option>
-                                <option>滚</option>
-                                <option>哈巴狗师傅</option>
+                                <option value="" id="dotsec">默认选择</option>
+                                
                             </select>
                         </td>
                     </tr>
@@ -121,7 +119,7 @@
                         <td>
                             <button type="button" class="btn btn-warning" title="医生简介" id="content"
                                     data-container="body" data-toggle="popover" data-placement="bottom"
-                                    data-content="右侧的 Popover 中的一些内容" disabled="disabled">
+                                    data-content="" disabled="disabled">
                                 请先选择医生
                             </button>
                         </td>
@@ -131,7 +129,7 @@
                         <!--提交咨询-->
                         <td>
                             <div class="form-group">
-                                <button id="subtn" type="submit" class="btn btn-default btn-lg ">提交咨询</button>
+                                <button id="subtn" type="button" class="btn btn-default btn-lg ">提交咨询</button>
                             </div>
                         </td>
                     </tr>
@@ -150,7 +148,15 @@
         if ($("#textarea").val().trim() == "" || $("#doctor").val().trim() == "" || $("#section").val().trim() == "") {
             alert("请完善填写信息");
         } else {
-            alert("可提交");
+            $.ajax({ 
+                type: 'POST',
+                url: "/Consult/AddConsultInfo",
+                data: { "Q_describe": $("#textarea").val(), "p_id": $("#userID").text(), "d_id": $("#doctor").val() },
+                success: function (data) {
+                    alert("咨询成功");
+                    $("#textarea").val("");
+                }
+            });
         }
     });
 
@@ -158,9 +164,17 @@
         $("#doctor").attr('disabled', false); // 如果科室没选，医生选不了
         $.ajax({ //需要通过科室id查找相对应的医生名称，我会传入后台一列咨询元组
             type: 'POST',
-            dataType: 'text',
-            url: "/Consult/Index",
-            data: { "section": $("#section").text() }
+            dataType: 'json',
+            url: "/Consult/ShowDoctors",
+            data: { "sectionId": $("#section").val() },
+            success: function (data) {
+                $("#dotsec").nextAll().remove();
+                for (var i = 0; i < data.length; i++) {
+                    $("#doctor").append('<option value="'+data[i].id+'">'+data[i].d_name+'</option>');
+                }
+                $("#content").html("请选择医生");
+                $("#content").attr('disabled', true);
+            }
         });
     });
 
@@ -170,9 +184,17 @@
             $("#content").attr('disabled', true);
         } else {
             $("#content").attr('disabled', false);
-            $("#content").html("点击查看" + $(this).val());
+            $("#content").html("点击查看医生简介");
+            $.ajax({
+                type: 'POST',
+                dataType: 'text',
+                url: "/Consult/ShowDoctorsBrief",
+                data: { "doctorId": $("#doctor").val() },
+                success: function (data) {
+                    $("#content").attr('data-content', data);
+                }
+            });
         }
-        
     })
 
     $("#enterCBtn").click(function () {

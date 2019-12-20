@@ -54,49 +54,53 @@
             @{
                 foreach (var item in Model)
                 {
-                    <tr>
+            <tr>
 
-                        <td>@item.Consult.Id</td>
-                        <td>@item.Consult.create_date</td>
-                        <td>@item.CurrentDoctor.d_name</td>
-                        @switch (item.Consult.state)
-                        {
-                            case 0:
-                                <td><span class="label label-danger">未解答</span></td>
-                                break;
-                            case 1:
-                                <td><span class="label label-primary">未评分</span></td>
-                                break;
-                            case 2:
-                                <td><span class="label label-success">已解答</span></td>
-                                break;
-                        }
-                        <td><a style="cursor:pointer" class="more" A_describe="@item.Consult.A_describe" Q_describe="@item.Consult.Q_describe" onclick="showDescribe(this)">更多</a></td>
-                        @if (item.Consult.points.ToString() == "")
-                        {
-                            <td class="lasttd">
-                                <select class="form-control col-lg-5 selectdo">
-                                    <option>0</option>
-                                    <option>1</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option>
-                                    <option>5</option>
-                                    <option>6</option>
-                                    <option>7</option>
-                                    <option>8</option>
-                                    <option>9</option>
-                                    <option>10</option>
-                                </select>
-                                <button type="button" class="btn btn-success confirmbtn">确认</button>
-                            </td>
-                        }
-                        else
-                        {
-                            <td class="lasttd">@item.Consult.points</td>
-                        }
-                    </tr>
+                <td>@item.Consult.Id</td>
+                <td>@item.Consult.create_date</td>
+                <td>@item.CurrentDoctor.d_name</td>
+                @switch (item.Consult.state)
+                {
+                    case 0:
+                        <td><span class="label label-danger">未解答</span></td>
+                        break;
+                    case 1:
+                        <td><span class="label label-primary">未评分</span></td>
+                        break;
+                    case 2:
+                        <td><span class="label label-success">已解答</span></td>
+                        break;
+                }
+                <td><a style="cursor:pointer" class="more" A_describe="@item.Consult.A_describe" Q_describe="@item.Consult.Q_describe" onclick="showDescribe(this)">更多</a></td>
+                @if (item.Consult.state == 1)
+                {
+                    <td class="lasttd">
+                        <select class="form-control col-lg-5 selectdo">
+                            <option>0</option>
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                            <option>5</option>
+                            <option>6</option>
+                            <option>7</option>
+                            <option>8</option>
+                            <option>9</option>
+                            <option>10</option>
+                        </select>
+                        <button type="button" class="btn btn-success confirmbtn">确认</button>
+                    </td>
+                }
+                else if (item.Consult.state == 0)
+                {
+                    <td class="lasttd">请先等待回答...</td>
+                }
+                else
+                {
+                    <td class="lasttd">@item.Consult.points</td>
+                }
+            </tr>
                 }
             }
 
@@ -165,13 +169,22 @@
 
         $(".confirmbtn").bind("click", function () {
             var c_no = $(this).parent().siblings(0).html();//获取编号
-
-            var r = window.confirm("确认要评分为" + c_no + "吗?");
+            var points = $(this).siblings(0).val(); // 评分分数
+            var r = window.confirm("确认要评分为" + points + "吗?");
             if (r) {
-                var points = $(this).siblings(0).val(); // 评分分数
                 var item = $(this).parent();
-                item.empty();
-                item.append(points);//显示选择后的评分
+                item.siblings().eq(3).empty();
+                item.siblings().eq(3).append('<span class="label label-success">已解答</span>');
+                $.ajax({
+                    type: 'POST',
+                    dataType: 'html',
+                    url: "/Consult/ChangesPoints",
+                    data: { "userId": c_no, "point": points },
+                    success: function (data) {
+                        item.empty();
+                        item.append(points);//显示选择后的评分
+                    }
+                });
             } else {
 
             }
