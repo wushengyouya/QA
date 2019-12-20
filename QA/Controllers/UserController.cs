@@ -52,7 +52,21 @@ namespace QA.Controllers
 
 
 
-
+        public ActionResult Register(Patient patient)
+        {
+            if (patient.p_account!=null){
+                patient.ID = Guid.NewGuid().ToString("N");
+                patient.Enroll_date = DateTime.Now;
+                patient.Birthday = DateTime.Now;
+                onlineQEntities.Patients.Add(patient);
+                if (SaveChanges() > 0)
+                {             
+                    return Redirect("/Consult/Index");                   
+                }
+            }
+            ViewBag.Msg = "未知错误";
+            return View();
+        }
 
         /// <summary>
         /// 医生个人信息
