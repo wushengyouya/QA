@@ -9,7 +9,7 @@ namespace QA.Controllers
 {
     public class UserController : Controller
     {
-        private OnlineQEntities onlineQEntities = new OnlineQEntities();
+        private OnlineQEntities OnlineQEntities = new OnlineQEntities();
         // GET: Login
 
         /// <summary>
@@ -20,9 +20,10 @@ namespace QA.Controllers
         public ActionResult Login(string userAccount,string userPwd)
         {
             //病人登录          
-            var patientInfo = onlineQEntities.Patients.FirstOrDefault(p => p.p_account.Equals(userAccount));
+            var patientInfo = OnlineQEntities.Patients.FirstOrDefault(p => p.p_account.Equals(userAccount));
             if(patientInfo !=null && patientInfo.p_account.Equals(userAccount) && patientInfo.Password.Equals(userPwd))
             {
+                Session["user"] = patientInfo;
                 //跳转至选择科室界面,目前展示的是个人信息界面
                 return Redirect("/Consult/Index");
             }
@@ -31,7 +32,7 @@ namespace QA.Controllers
            
 
             //医生登录
-            var doctorInfo = onlineQEntities.Doctors.FirstOrDefault(d => d.d_account.Equals(userAccount));
+            var doctorInfo = OnlineQEntities.Doctors.FirstOrDefault(d => d.d_account.Equals(userAccount));
             if(doctorInfo!=null && doctorInfo.d_account.Equals(userAccount) && doctorInfo.password.Equals(userPwd))
             {
                 //跳转至回答咨询界面
@@ -58,7 +59,7 @@ namespace QA.Controllers
                 patient.ID = Guid.NewGuid().ToString("N");
                 patient.Enroll_date = DateTime.Now;
                 patient.Birthday = DateTime.Now;
-                onlineQEntities.Patients.Add(patient);
+                OnlineQEntities.Patients.Add(patient);
                 if (SaveChanges() > 0)
                 {             
                     return Redirect("/Consult/Index");                   
@@ -75,7 +76,7 @@ namespace QA.Controllers
         /// <returns></returns>
         public ActionResult DoctorInfo(string id)
         {
-            var doctor = onlineQEntities.Doctors.First(d => d.Id == id);
+            var doctor = OnlineQEntities.Doctors.First(d => d.Id == id);
             return Json(doctor);
         }
 
@@ -86,7 +87,7 @@ namespace QA.Controllers
         /// <returns></returns>
         public string UpdatePatientInfo(string userId,string newpas)
         {
-            onlineQEntities.Patients.FirstOrDefault(p => p.ID == userId).Password=newpas;
+            OnlineQEntities.Patients.FirstOrDefault(p => p.ID == userId).Password=newpas;
             SaveChanges();
             return "y";
         }
@@ -99,7 +100,7 @@ namespace QA.Controllers
         /// <returns></returns>
         public int SaveChanges()
         {
-           return  onlineQEntities.SaveChanges();
+           return  OnlineQEntities.SaveChanges();
         }
     }
 }

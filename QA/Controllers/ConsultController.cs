@@ -6,51 +6,51 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Newtonsoft.Json;
-
+using QA.App_Start;
 
 namespace QA.Controllers
 {
     
     public class ConsultController : Controller
     {
-        private OnlineQEntities onlineQEntities = new OnlineQEntities();
+        private OnlineQEntities OnlineQEntities = new OnlineQEntities();
         List<Section> SecResources { get; set; } = new List<Section>(); //用于显示科室
         List<Doctor> DocResources { get; set; } = new List<Doctor>();
 
-        
+
         //登录后创建 ---------待修改 
-        private Patient CurrentUser =>  onlineQEntities.Patients.FirstOrDefault();
+        private Patient CurrentUser => (Patient)Session["user"];
 
-
+        [UserMustLoginFilter]
         public ActionResult Index()
         {
            
             IndexViewModel indexModel = new IndexViewModel
             {
-                CurrentUser = CurrentUser,
-                Sections = onlineQEntities.Sections
+                CurrentUser = CurrentUser??new Patient(),
+                Sections = OnlineQEntities.Sections
             };
             
             return View(indexModel);
         }
 
         //咨询中心
-        public ActionResult ConsultCenter(int pageIndex=1,int pageSize=5)
+        public ActionResult ConsultCenter(int pageIndex=1,int pageSize=2)
         {
-            var item = onlineQEntities.Consults.Where(p => p.p_id.Equals(CurrentUser.ID));
+            var item = OnlineQEntities.Consults.Where(p => p.p_id.Equals(CurrentUser.ID));
 
             //当前用户所有咨询条数
-            var consults = from c in onlineQEntities.Consults
-                            join d in onlineQEntities.Doctors
+            var consults = from c in OnlineQEntities.Consults
+                            join d in OnlineQEntities.Doctors
                             on c.d_id equals d.Id
                             select new ConsultCenterViewModel
                             {
                                 CurrentDoctor = d,
                                 Consult = c,
                             };
-
+            double totalCount = consults.Count()*1.0;
             //总页数
-            ViewBag.PageCount = Math.Ceiling(consults.Count() / pageSize*1.0);
+            ViewBag.PageCount = Math.Ceiling(totalCount / pageSize);
 
             //当前页码
             ViewBag.PageIndex = pageIndex;
@@ -69,7 +69,7 @@ namespace QA.Controllers
         {
             string url = Request.Url.AbsoluteUri;
             string userId = Request["userId"];
-            var patient = onlineQEntities.Patients.FirstOrDefault(p => p.ID == userId);
+            var patient = OnlineQEntities.Patients.FirstOrDefault(p => p.ID == userId);
 
             return View(patient);
         }
@@ -81,10 +81,10 @@ namespace QA.Controllers
         /// <returns></returns>
         public string ChangesPoints(string userId,int point) {
             //修改评分
-            onlineQEntities.Consults.FirstOrDefault(p => p.Id == userId).points = point;
+            OnlineQEntities.Consults.FirstOrDefault(p => p.Id == userId).points = point;
             //修改状态
-            onlineQEntities.Consults.FirstOrDefault(p => p.Id == userId).state = 2;
-            onlineQEntities.SaveChanges();
+            OnlineQEntities.Consults.FirstOrDefault(p => p.Id == userId).state = 2;
+            OnlineQEntities.SaveChanges();
             return "y";
         }
 
@@ -95,8 +95,8 @@ namespace QA.Controllers
         /// <returns></returns>
         public string ShowDoctors(string sectionId) {
 
-            var consults = from s in onlineQEntities.Sections
-                           join d in onlineQEntities.Doctors
+            var consults = from s in OnlineQEntities.Sections
+                           join d in OnlineQEntities.Doctors
                            on s.Id equals d.s_id where(s.Id==sectionId)
                            select new DoctorsTwo
                            {
@@ -113,7 +113,7 @@ namespace QA.Controllers
         /// <returns></returns>
         public string ShowDoctorsBrief(string doctorId)
         {
-            return onlineQEntities.Doctors.First(d => d.Id == doctorId).brief.ToString();
+            return OnlineQEntities.Doctors.First(d => d.Id == doctorId).brief.ToString();
         }
 
         /// <summary>
@@ -133,8 +133,8 @@ namespace QA.Controllers
                 d_id = d_id,
                 points = null,
             };
-            onlineQEntities.Consults.Add(cs);
-            onlineQEntities.SaveChanges();
+            OnlineQEntities.Consults.Add(cs);
+            OnlineQEntities.SaveChanges();
             return "y";
         }
     }
