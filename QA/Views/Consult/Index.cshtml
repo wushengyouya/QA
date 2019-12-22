@@ -50,13 +50,14 @@
                         个人中心
                     </a>
                 </li>
+                
                 <li class="dropdown">
                     <a id="enterCBtn" href="" data-toggle="dropdown">
                         咨询中心
                     </a>
                 </li>
                 <li class="dropdown">
-                    <a href="#" data-toggle="dropdown">
+                    <a href="" data-toggle="dropdown" id="zhuxiao">
                         注销
                     </a>
                 </li>
@@ -191,7 +192,7 @@
                 url: "/Consult/ShowDoctorsBrief",
                 data: { "doctorId": $("#doctor").val() },
                 success: function (data) {
-                    $("#content").attr('data-content', "该医生评分："+data[0].points+"     简介详情："+data[0].brief);
+                    $("#content").attr('data-content', "简介详情："+data[0].brief);
                 }
             });
         }
@@ -203,6 +204,10 @@
 
     $("#enterPBtn").click(function () {
         window.location.href = "/Consult/PersonCenter?userId=@Model.CurrentUser.ID";
+    })
+
+    $("#zhuxiao").click(function () {
+        window.location.href = "/User/Login";
     })
 </script>
 

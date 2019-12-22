@@ -1,28 +1,29 @@
-﻿@model  QA.Models.Patient
+﻿
 @{
-  //  ViewBag.Title = "PersonCenter";
+    ViewBag.Title = "DoctorCenter";
 }
+@model  QA.Models.Doctor
+
 
 <style>
-
 </style>
 
-<h2>患者个人中心</h2>
+<h2>医生个人中心</h2>
 <div id="mask" class="mask"></div>
 <div class="form-group col-lg-6">
     <div class="col-sm-12">
         <button type="button" class="btn btn-primary btn-lg " id="back">返回</button>
     </div>
-    <input type="text" class="form-control" style="display:none" id="password" value="@Model.Password" />
+    <input type="text" class="form-control" style="display:none" id="password" value="@Model.password" />
     <div class="col-sm-10" style="display:none">
-        <input class="form-control" id="ID" type="text" value="@Model.ID" disabled>
+        <input class="form-control" id="ID" type="text" value="@Model.Id" disabled>
     </div>
 
     <label for="inputPassword" class="col-sm-2 control-label">
         账号
     </label>
     <div class="col-sm-10">
-        <input class="form-control" id="p_account" type="text" placeholder="@Model.p_account" disabled>
+        <input class="form-control" id="p_account" type="text" placeholder="@Model.d_account" disabled>
     </div>
 
     <!---->
@@ -30,15 +31,15 @@
         姓名
     </label>
     <div class="col-sm-10">
-        <input class="form-control" id="p_name" type="text" placeholder="@Model.p_Name" disabled>
+        <input class="form-control" id="p_name" type="text" placeholder="@Model.d_name" disabled>
     </div>
 
     <!---->
     <label for="inputPassword" class="col-sm-2 control-label">
-        身份证
+        职称
     </label>
     <div class="col-sm-10">
-        <input class="form-control" id="IDcard" type="text" placeholder="@Model.Idcard." disabled>
+        <input class="form-control" id="IDcard" type="text" placeholder="@Model.title" disabled>
     </div>
 
     <!---->
@@ -46,7 +47,7 @@
         性别
     </label>
     <div class="col-sm-10">
-        <input class="form-control" id="p_sex" type="text" placeholder="@Model.p_sex." disabled>
+        <input class="form-control" id="p_sex" type="text" placeholder="@Model.d_sex" disabled>
     </div>
 
 
@@ -54,52 +55,52 @@
         创建日期
     </label>
     <div class="col-sm-10">
-        <input class="form-control" id="enroll_date" type="text" placeholder="@Model.Enroll_date" disabled>
+        <input class="form-control" id="enroll_date" type="text" placeholder="@Model.entry_date" disabled>
     </div>
 
     <label for="inputPassword" class="col-sm-2 control-label">
         电话号码
     </label>
     <div class="col-sm-10">
-        <input class="form-control" id="P_tel" type="text" placeholder="@Model.p_tel" disabled>
+        <input class="form-control" id="P_tel" type="text" placeholder="@Model.d_tel" disabled>
     </div>
 
     <label for="inputPassword" class="col-sm-2 control-label">
-        出生日期
+        个人简介
     </label>
     <div class="col-sm-10">
-        <input class="form-control" id="birthday" type="text" placeholder="@Model.Birthday" disabled>
+        <input class="form-control" id="birthday" type="text" placeholder="@Model.brief" disabled>
     </div>
 
     <button type="button" id="changepasw" class="btn btn-default">修改密码</button>
 </div>
 
-    <div class="container" style="width: 25%;position:absolute;left:35%;top:15%;z-index:1003;display:none" id="tankuang">
-        <div class="panel panel-green">
-            <div class="panel-heading">
-                修改密码
+<div class="container" style="width: 25%;position:absolute;left:35%;top:15%;z-index:1003;display:none" id="tankuang">
+    <div class="panel panel-green">
+        <div class="panel-heading">
+            修改密码
+        </div>
+        <div class="panel-body">
+            <div class="input-group input-group-sm">
+                <span class="input-group-addon"><i class="fa fa-bullhorn fa-fw"></i></span>
+                <input type="text" class="form-control" placeholder="老密码" id="oldpas" />
+                <input type="password" class="form-control" placeholder="新密码" id="newpas" />
+                <input type="password" class="form-control" placeholder="确认新密码密码" id="cnewpas" />
             </div>
-            <div class="panel-body">
-                <div class="input-group input-group-sm">
-                    <span class="input-group-addon"><i class="fa fa-bullhorn fa-fw"></i></span>
-                    <input type="text" class="form-control" placeholder="老密码" id="oldpas" />
-                    <input type="password" class="form-control" placeholder="新密码" id="newpas" />
-                    <input type="password" class="form-control" placeholder="确认新密码密码" id="cnewpas" />
-                </div>
-                <!--按钮-->
-                <div class="row" style="text-align: center; margin-top: 5px;">
-                    <button type="button" class="btn btn-info btn-circle btn-xs" style="margin-right: 40px;" id="doit">
-                        <i class="fa fa-check">确认修改</i>
-                    </button>
-                    <button type="button" class="btn btn-warning btn-circle btn-xs " id="dontdoit">
-                        <i class="fa fa-times">取消</i>
-                    </button>
-                </div>
+            <!--按钮-->
+            <div class="row" style="text-align: center; margin-top: 5px;">
+                <button type="button" class="btn btn-info btn-circle btn-xs" style="margin-right: 40px;" id="doit">
+                    <i class="fa fa-check">确认修改</i>
+                </button>
+                <button type="button" class="btn btn-warning btn-circle btn-xs " id="dontdoit">
+                    <i class="fa fa-times">取消</i>
+                </button>
             </div>
         </div>
     </div>
+</div>
 
-    <script>
+<script>
     $(function () {
 
     });
@@ -143,14 +144,19 @@
                 $.ajax({
                 type: 'POST',
                 dataType: 'html',
-                    url: "/User/UpdatePatientInfo",
+                    url: "/User/UpdateDoctorPas",
                     data: { "userId": $("#ID").val(), "newpas": $("#newpas").val() },
                 success: function (data) {
                     alert("修改密码成功!");
-                    window.location.href = "/User/DoctorLogin";
+                    window.location.href = "/User/Login";
+                    $("#mask").hide();
+                    $("#tankuang").css("display", "none");
+                    $("#oldpas,#newpas,#cnewpas").val("");
                 }
             });
             }
         }
     })
-    </script>
+</script>
+
+

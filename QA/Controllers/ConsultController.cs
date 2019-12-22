@@ -35,7 +35,7 @@ namespace QA.Controllers
         }
 
         //咨询中心
-        public ActionResult ConsultCenter(int pageIndex=1,int pageSize=2)
+        public ActionResult ConsultCenter(int pageIndex=1,int pageSize=5)
         {
             var item = OnlineQEntities.Consults.Where(p => p.p_id.Equals(CurrentUser.ID));
 
@@ -70,7 +70,6 @@ namespace QA.Controllers
             string url = Request.Url.AbsoluteUri;
             string userId = Request["userId"];
             var patient = OnlineQEntities.Patients.FirstOrDefault(p => p.ID == userId);
-
             return View(patient);
         }
 
@@ -121,6 +120,18 @@ namespace QA.Controllers
             };
             return JsonConvert.SerializeObject(docs);
             //return OnlineQEntities.Doctors.First(d => d.Id == doctorId).brief.ToString();
+        }
+
+        /// <summary>
+        /// 插入解答内容
+        /// </summary>
+        /// <param name="consultInfo"></param>
+        /// <returns></returns>
+        public string AddConsultContent(string consultID,string a_context) {
+            OnlineQEntities.Consults.FirstOrDefault(p => p.Id == consultID).A_describe = a_context;
+            OnlineQEntities.Consults.FirstOrDefault(p => p.Id == consultID).state = 1;
+            OnlineQEntities.SaveChanges();
+            return "y";
         }
 
         /// <summary>

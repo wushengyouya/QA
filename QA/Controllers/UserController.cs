@@ -100,7 +100,7 @@ namespace QA.Controllers
                     return Redirect("/Consult/Index");
                 }
             }
-            ViewBag.Msg = "未知错误";
+            //ViewBag.Msg = "未知错误";
             return View();
         }
 
@@ -173,7 +173,32 @@ namespace QA.Controllers
             //当前页条数
             consults = consults.OrderBy(p => p.Consult.Id).Skip((pageIndex - 1) * pageSize).Take(pageSize);
 
+            //医生号
+            ViewBag.doctorId = currentDoctor.Id;
             return consults;
+        }
+
+
+        /// <summary>
+        /// 医生个人中心
+        /// </summary>
+        /// <param name="DoctorCenter"></param>
+        /// <returns></returns>
+        public ActionResult DoctorCenter(string id) {
+            var doctor = OnlineQEntities.Doctors.FirstOrDefault(p => p.Id == id);
+            return View(doctor);
+        }
+
+
+        /// <summary>
+        /// 改修医生密码
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public string UpdateDoctorPas(string userId,string newpas) {
+            OnlineQEntities.Doctors.FirstOrDefault(p => p.Id == userId).password = newpas;
+            SaveChanges();
+            return "y";
         }
     }
 }

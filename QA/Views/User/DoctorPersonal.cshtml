@@ -37,6 +37,8 @@
 </style>
 <div id="mask" class="mask"></div>
 <button type="button" class="btn btn-primary btn-lg " id="back">返回</button>
+<a href="/User/DoctorCenter?id=@ViewBag.doctorId"><button type="button" class="btn btn-success btn-lg ">个人中心</button></a>
+
 <div>
     <!--需要整个咨询元组和医生姓名，总页数，当前页码-->
     <table class="table table-striped">
@@ -46,7 +48,7 @@
                 <th style="width:15%">创建日期</th>
                 <th style="width:10%">咨询患者</th>
                 <th style="width:10%">解答状态</th>
-                <th style="width:5%">详情</th>
+                <th style="width:5%">咨询内容</th>
                 <th style="width:14%">评分</th>
             </tr>
         </thead>
@@ -56,7 +58,7 @@
                 {
                     <tr>
 
-                        <td>@item.Consult.Id</td>
+                        <td id="consultId">@item.Consult.Id</td>
                         <td>@item.Consult.create_date</td>
                         <td>@item.Patient.p_Name</td>
                         @switch (item.Consult.state)
@@ -71,30 +73,10 @@
                                 <td><span class="label label-success">已解答</span></td>
                                 break;
                         }
-                        <td><a style="cursor:pointer" class="more" A_describe="@item.Consult.A_describe" Q_describe="@item.Consult.Q_describe" onclick="showDescribe(this)">更多</a></td>
-                        @if (item.Consult.state == 1)
+                        <td><a style="cursor:pointer" class="more" A_describe="@item.Consult.A_describe" Q_describe="@item.Consult.Q_describe" onclick="showDescribe(this)">进行解答</a></td>
+                        @if (item.Consult.state == 0 || item.Consult.state == 1)
                         {
-                            <td class="lasttd">
-                                <select class="form-control col-lg-5 selectdo">
-                                    <option>0</option>
-                                    <option>1</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option>
-                                    <option>5</option>
-                                    <option>6</option>
-                                    <option>7</option>
-                                    <option>8</option>
-                                    <option>9</option>
-                                    <option>10</option>
-                                </select>
-                                <button type="button" class="btn btn-success confirmbtn">确认</button>
-                            </td>
-                        }
-                        else if (item.Consult.state == 0)
-                        {
-                            <td class="lasttd">请先等待回答...</td>
+                            <td class="lasttd">暂无评分</td>
                         }
                         else
                         {
@@ -137,10 +119,13 @@
                     <span>咨询内容:</span>
                     <textarea readonly="readonly" class="showtext" rows="6" id="qtext"></textarea>
                     <span>解答内容:</span>
-                    <textarea readonly="readonly" class="showtext" rows="6" id="atext"></textarea>
+                    <textarea class="showtext" rows="6" id="atext"></textarea>
                 </div>
                 <!--按钮-->
                 <div class="row" style="text-align: center; margin-top: 5px;">
+                    <button type="button" class="btn btn-info btn-circle btn-xs" style="margin-right: 40px;" id="doit">
+                        <i class="fa fa-check">确认解答</i>
+                    </button>
                     <button type="button" class="btn btn-warning btn-circle btn-xs " id="dontdoit">
                         <i class="fa fa-times">关闭</i>
                     </button>
@@ -152,6 +137,7 @@
 
 <script>
     $(function () {
+        var c_id = "";
         $(".more").click(function () {
             mask();
             $("#tankuang").css("display", "block");
@@ -167,30 +153,11 @@
         })
 
 
-        $(".confirmbtn").bind("click", function () {
-            var c_no = $(this).parent().siblings(0).html();//获取编号
-            var points = $(this).siblings(0).val(); // 评分分数
-            var r = window.confirm("确认要评分为" + points + "吗?");
-            if (r) {
-                var item = $(this).parent();
-                item.siblings().eq(3).empty();
-                item.siblings().eq(3).append('<span class="label label-success">已解答</span>');
-                $.ajax({
-                    type: 'POST',
-                    dataType: 'html',
-                    url: "/Consult/ChangesPoints",
-                    data: { "userId": c_no, "point": points },
-                    success: function (data) {
-                        item.empty();
-                        item.append(points);//显示选择后的评分
-                    }
-                });
-            } else {
 
-            }
-
-        })
     });
+
+
+
     function mask() {
         $("#mask").css("height", $(document).height());
         $("#mask").css("width", $(document).width());
@@ -205,7 +172,22 @@
 
     //展示资源详情
     function showDescribe(obj) {
+        $("#atext").text("");
+        c_id = $(obj).parent().parent().find("#consultId").html();
         $('#qtext').text($(obj).attr('Q_describe'));
         $('#atext').text($(obj).attr('A_describe'));
     }
+
+    $("#doit").click(function () {
+        $.ajax({
+            type: 'POST',
+            dataType: 'html',
+            url: "/Consult/AddConsultContent",
+            data: { "consultID": c_id, "a_context": $("#atext").val() },
+            success: function (data) {
+                window.location.reload();
+
+            }
+        });
+    })
 </script>
