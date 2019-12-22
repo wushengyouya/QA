@@ -13,6 +13,14 @@ namespace QA.ViewModels
         public int PageCount { get; set; }
     }
 
+    public class DoctorCenterViewModel
+    {
+        public Doctor CurrentDoctor { get; set; }
+        public Patient Patient { get; set; }
+        public Consult Consult { get; set; }
+        public int PageCount { get; set; }
+    }
+
     public class DoctorsTwo {
         public string id { get; set; }
         public string d_name { get; set; }

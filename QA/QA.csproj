@@ -121,6 +121,7 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Start\DoctorActionFilter.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\UserMustLoginFilter.cs" />
@@ -178,10 +179,11 @@
     <Content Include="Views\Consult\Index.cshtml" />
     <Content Include="Views\Consult\ConsultCenter.cshtml" />
     <Content Include="Views\Consult\PersonCenter.cshtml" />
-    <Content Include="Views\DoctorPersonal.cshtml" />
     <Content Include="Views\PatientPersonal.cshtml" />
     <Content Include="Views\User\Login.cshtml" />
     <Content Include="Views\User\Register.cshtml" />
+    <Content Include="Views\User\DoctorPersonal.cshtml" />
+    <Content Include="Views\User\DoctorLogin.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -191,7 +193,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Base\" />
     <Folder Include="Views\Index\" />
   </ItemGroup>
   <ItemGroup>
