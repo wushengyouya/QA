@@ -37,11 +37,11 @@ namespace QA.Controllers
         //咨询中心
         public ActionResult ConsultCenter(int pageIndex=1,int pageSize=5)
         {
-            var item = OnlineQEntities.Consults.Where(p => p.p_id.Equals(CurrentUser.ID));
+            var data = OnlineQEntities.Consults.Where(p => p.p_id.Equals(CurrentUser.ID));
 
             //当前用户所有咨询条数
-            var consults = from c in OnlineQEntities.Consults
-                            join d in OnlineQEntities.Doctors
+            var consults = from c in data
+                           join d in OnlineQEntities.Doctors
                             on c.d_id equals d.Id
                             select new ConsultCenterViewModel
                             {

@@ -148,13 +148,13 @@ namespace QA.Controllers
         public IEnumerable<DoctorCenterViewModel> DoctorData(int pageIndex, int pageSize)
         {
             var currentDoctor =(Doctor) Session["doctor"];
-            var tempData = OnlineQEntities.Consults.Where(d => d.d_id.Equals(currentDoctor.Id)).ToList();
+            var tempData = OnlineQEntities.Consults.Where(d => d.d_id.Equals(currentDoctor.Id));
 
             //计算医生平均分
             ViewBag.average = tempData.Sum(d => d.points) / tempData.Count;
 
             //当前医生所有咨询条数
-            var consults = (from c in tempData
+            var consults = from c in tempData
                             join p in OnlineQEntities.Patients 
                             on c.p_id equals p.ID
                            select new DoctorCenterViewModel
@@ -162,7 +162,7 @@ namespace QA.Controllers
 
                                Patient = p,
                                Consult = c,
-                           });
+                           };
             double totalCount = consults.Count() * 1.0;
             //总页数
             ViewBag.PageCount = Math.Ceiling(totalCount / pageSize);
