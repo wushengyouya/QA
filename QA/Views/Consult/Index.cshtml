@@ -187,11 +187,11 @@
             $("#content").html("点击查看医生简介");
             $.ajax({
                 type: 'POST',
-                dataType: 'text',
+                dataType: 'json',
                 url: "/Consult/ShowDoctorsBrief",
                 data: { "doctorId": $("#doctor").val() },
                 success: function (data) {
-                    $("#content").attr('data-content', data);
+                    $("#content").attr('data-content', "该医生评分："+data[0].points+"     简介详情："+data[0].brief);
                 }
             });
         }

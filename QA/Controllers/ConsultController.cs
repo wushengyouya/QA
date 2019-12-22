@@ -113,7 +113,14 @@ namespace QA.Controllers
         /// <returns></returns>
         public string ShowDoctorsBrief(string doctorId)
         {
-            return OnlineQEntities.Doctors.First(d => d.Id == doctorId).brief.ToString();
+            var docs = from d in OnlineQEntities.Doctors
+            select new
+            {
+                d.brief,
+                d.points,
+            };
+            return JsonConvert.SerializeObject(docs);
+            //return OnlineQEntities.Doctors.First(d => d.Id == doctorId).brief.ToString();
         }
 
         /// <summary>
